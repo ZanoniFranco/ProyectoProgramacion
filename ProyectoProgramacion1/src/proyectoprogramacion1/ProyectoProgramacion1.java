@@ -61,7 +61,7 @@ public class ProyectoProgramacion1 {
 //fuente        
         Font fuente = new Font("Consolas", Font.BOLD, 30);
         txtarea.setFont(fuente);
-        txtarea.setBackground(Color.cyan);
+        txtarea.setBackground(Color.red);
 
 //TEXT FIELD
         JTextField txtfield = new JTextField();
