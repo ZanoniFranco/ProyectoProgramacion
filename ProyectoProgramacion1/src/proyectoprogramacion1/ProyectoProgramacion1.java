@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,7 +25,7 @@ public class ProyectoProgramacion1 {
         frame.setSize(500, 500);
         frame.setResizable(false);
         frame.setLayout(null);
-        
+ 
 //CHECKBOX
 //variableName.setBounds(position X, position Y, size Width, size Wigh);
         JCheckBox cb1 = new JCheckBox("Copiar Arriba");
@@ -67,6 +68,21 @@ public class ProyectoProgramacion1 {
         txtfield.setBounds(20, 320, 460, 30);
         txtfield.setToolTipText("Ingrese texto aquí");
         frame.add(txtfield);
+                  
+//JComboBox
+    JComboBox combbox = new JComboBox();
+    combbox.setBounds(20,1,100,20);
+    combbox.addItem("uno");
+    combbox.addItem("dos");
+    frame.add(combbox);
+    
+   combbox.addActionListener(new ActionListener() {
+   @Override
+   public void actionPerformed(ActionEvent ae) {
+       txtarea.setFront(new java.awt.Font("Tahoma", 1, 11));
+   }
+});
+
 
 //BOTON BORRAR
         JButton btnBorrar = new JButton("BORRAR");
