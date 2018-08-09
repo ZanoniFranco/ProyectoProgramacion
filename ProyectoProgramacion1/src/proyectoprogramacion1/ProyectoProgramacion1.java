@@ -24,12 +24,10 @@ public class ProyectoProgramacion1 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLayout(null);
-<<<<<<< HEAD
- 
-=======
+
         
         
->>>>>>> 4301b3baceb4bcb1d30cfa857a9d3aa767eaa53c
+
 //CHECKBOX
 //variableName.setBounds(position X, position Y, size Width, size High);
         JCheckBox cb1 = new JCheckBox("Copiar Arriba");
@@ -73,7 +71,6 @@ public class ProyectoProgramacion1 {
         frame.add(txtfield);
         txtfield.setBounds(20, 320, 460, 30);
         txtfield.setToolTipText("Ingrese texto aquí");
-<<<<<<< HEAD
         frame.add(txtfield);
                   
 //JComboBox
@@ -86,12 +83,9 @@ public class ProyectoProgramacion1 {
    combbox.addActionListener(new ActionListener() {
    @Override
    public void actionPerformed(ActionEvent ae) {
-       txtarea.setFront(new java.awt.Font("Tahoma", 1, 11));
    }
 });
 
-=======
->>>>>>> 4301b3baceb4bcb1d30cfa857a9d3aa767eaa53c
 
 //BOTON BORRAR
         JButton btnBorrar = new JButton("BORRAR");
