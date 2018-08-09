@@ -19,39 +19,40 @@ public class ProyectoProgramacion1 {
 
     public static void main(String[] args) {
         //FRAME
-        JFrame frame = new JFrame("Manu's Window");
+        JFrame frame = new JFrame("Text Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
         frame.setResizable(false);
         frame.setLayout(null);
         
+        
 //CHECKBOX
-//variableName.setBounds(position X, position Y, size Width, size Wigh);
+//variableName.setBounds(position X, position Y, size Width, size High);
         JCheckBox cb1 = new JCheckBox("Copiar Arriba");
+        frame.add(cb1);
         cb1.setBounds(130, 415, 120, 15);
         cb1.setSelected(false);
         cb1.setToolTipText("Envía el texto arriba");
-        frame.add(cb1);
 
 //LABEL1
-        JLabel label1 = new JLabel("Manu Moroncini ©");
-        label1.setBounds(380, 350, 200, 200);
-        label1.setForeground(new Color(25, 114, 236));
-        label1.setToolTipText("Manu Moroncini, todos los derechos reservados");
+        JLabel label1 = new JLabel("Zanoni-Moroncini ©");
         frame.add(label1);
+        label1.setBounds(340, 350, 200, 200);
+        label1.setForeground(new Color(25, 114, 236));
+        label1.setToolTipText("Trabajo hecho por Zanoni y Moroncini");
 
 //TEXT AREA
         JTextArea txtarea = new JTextArea();
-        txtarea.setBounds(20, 20, 460, 290);
+        frame.add(txtarea);    
+        //txtarea.setBounds(5, 3, 260, 50);
         txtarea.setToolTipText("Aquí se muestra el texto que usted ingresa");
         txtarea.setEditable(false);
-        frame.add(txtarea);
+        
 
 //SCROLL PANE
         JScrollPane scroll = new JScrollPane(txtarea);
-        scroll.setBounds(20, 20, 460, 280);
-        scroll.setToolTipText("Sube y baja");
         frame.add(scroll);
+        scroll.setBounds(20, 60, 460, 230);
+        scroll.setToolTipText("Sube y baja");
 
 //DETALLES
 //hacer que las palabras no se corten
@@ -60,13 +61,13 @@ public class ProyectoProgramacion1 {
 //fuente        
         Font fuente = new Font("Consolas", Font.BOLD, 30);
         txtarea.setFont(fuente);
-        txtarea.setBackground(Color.orange);
+        txtarea.setBackground(Color.cyan);
 
 //TEXT FIELD
         JTextField txtfield = new JTextField();
+        frame.add(txtfield);
         txtfield.setBounds(20, 320, 460, 30);
         txtfield.setToolTipText("Ingrese texto aquí");
-        frame.add(txtfield);
 
 //BOTON BORRAR
         JButton btnBorrar = new JButton("BORRAR");
@@ -129,6 +130,8 @@ public class ProyectoProgramacion1 {
         frame.add(btnSalir);
         
 //Hacer la ventana/frame visible.
+        frame.setSize(500, 500);
+        frame.repaint();
         frame.setVisible(true);
     }
 }
