@@ -27,7 +27,7 @@ import javax.swing.text.DefaultEditorKit;
 public class ProyectoProgramacion1 extends JFrame{
     private JTextArea area = new JTextArea(20,120);
     private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
-    private String currentFile = "Untitled";
+    private String currentFile = "ManuFranco";
     private boolean changed = false;
     
     
