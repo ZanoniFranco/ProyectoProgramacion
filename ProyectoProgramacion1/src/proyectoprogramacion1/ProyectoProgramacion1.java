@@ -29,7 +29,7 @@ import javax.swing.text.DefaultEditorKit;
 public class ProyectoProgramacion1 extends JFrame{
     private JTextArea area = new JTextArea(20,120);
     private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
-    private String currentFile = "Untitled";
+    private String currentFile = "EDITOR DE TEXTO";
     private boolean changed = false;
     
     
@@ -97,6 +97,7 @@ public class ProyectoProgramacion1 extends JFrame{
                 Color colores=JColorChooser.showDialog(JMB, "Eligir un color para la fuente", Color.BLACK);
                 //Cambia el color del boton para saber que color estamos usando
                 btnColor.setBackground(colores);
+                area.setForeground(colores);
 //                lblNewLabel.setOpaque(true);
             }
         });
