@@ -27,28 +27,30 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.text.DefaultEditorKit;
 
 public class ProyectoProgramacion1 extends JFrame{
-    private JTextArea area = new JTextArea(20,120);
+    private JTextArea area = new JTextArea(20,80);
     private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
-<<<<<<< HEAD
-    private String currentFile = "ManuFranco";
-=======
+
     private String currentFile = "EDITOR DE TEXTO";
->>>>>>> c88255f8b391e3d6555e507605ce99c04d3a6070
+
     private boolean changed = false;
-    
     
     public ProyectoProgramacion1(){
     
         area.setFont(new Font("Monospaced",Font.PLAIN,12));
+        area.setToolTipText("Hoja");
         JScrollPane scroll = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setToolTipText("Sube y baja");
         add(scroll,BorderLayout.CENTER);
         
         JMenuBar JMB = new JMenuBar();
         setJMenuBar(JMB);
-        JMenu file = new JMenu("File");
-        JMenu edit = new JMenu("Edit");
+        JMenu file = new JMenu("Archivo");
+        JMenu edit = new JMenu("Editar");
+        JMB.setToolTipText("Barra de tareas");
         JMB.add(file);
         JMB.add(edit);
+        file.setToolTipText("Archivo");
+        edit.setToolTipText("Editar");
         
         file.add(New);
         file.add(Open);
@@ -64,9 +66,9 @@ public class ProyectoProgramacion1 extends JFrame{
         edit.add(Copy);
         edit.add(Paste);
         
-        edit.getItem(0).setText("Cut out");
-        edit.getItem(1).setText("Copy");
-        edit.getItem(2).setText("Paste");
+        edit.getItem(0).setText("Cortar");
+        edit.getItem(1).setText("Copiar");
+        edit.getItem(2).setText("Pegar");
         
         JToolBar tool = new JToolBar();
         add(tool,BorderLayout.NORTH);
@@ -76,9 +78,9 @@ public class ProyectoProgramacion1 extends JFrame{
         tool.addSeparator();
         
         JButton cut = tool.add(Cut), cop = tool.add(Copy), pas = tool.add(Paste);
-        cut.setText(null); cut.setIcon(new ImageIcon(""));
-        cop.setText(null); cop.setIcon(new ImageIcon(""));
-        pas.setText(null); pas.setIcon(new ImageIcon(""));
+        cut.setText(null); cut.setIcon(new ImageIcon("C:\\Users\\Manuel\\Documents\\NetBeansProjects\\ProyectoProgramacion\\ProyectoProgramacion1\\src\\proyectoprogramacion1\\cortar.png"));
+        cop.setText(null); cop.setIcon(new ImageIcon("C:\\Users\\Manuel\\Documents\\NetBeansProjects\\ProyectoProgramacion\\ProyectoProgramacion1\\src\\proyectoprogramacion1\\copiar.png"));
+        pas.setText(null); pas.setIcon(new ImageIcon("C:\\Users\\Manuel\\Documents\\NetBeansProjects\\ProyectoProgramacion\\ProyectoProgramacion1\\src\\proyectoprogramacion1\\pegar.png"));
         
         Save.setEnabled(false);
         SaveAs.setEnabled(false);
@@ -88,7 +90,13 @@ public class ProyectoProgramacion1 extends JFrame{
         area.addKeyListener(k1);
         setTitle(currentFile);
         setVisible(true);
-        
+      
+    //LABEL1
+        JLabel label1 = new JLabel("Zanoni&Moroncini ©");
+        label1.setBounds(10, 30, 100, 30);
+        label1.setForeground(new Color(25, 114, 236));
+        label1.setToolTipText("Trabajo realizado por Moroncini y Zanoni");
+        tool.add(label1);
         
     //COLOR CHOOSER 
         JButton btnColor = new JButton("Color de Fuente");
@@ -99,11 +107,11 @@ public class ProyectoProgramacion1 extends JFrame{
             @Override
             public void actionPerformed (ActionEvent e){
                 //Abre la paleta de colores
-                Color colores=JColorChooser.showDialog(JMB, "Eligir un color para la fuente", Color.BLACK);
+                Color colores=JColorChooser.showDialog(tool, "Eligir un color para la fuente", Color.BLACK);
                 //Cambia el color del boton para saber que color estamos usando
                 btnColor.setBackground(colores);
                 area.setForeground(colores);
-//                lblNewLabel.setOpaque(true);
+                label1.setForeground(colores);
             }
         });
         
@@ -121,7 +129,7 @@ public class ProyectoProgramacion1 extends JFrame{
         
         
     };
-    Action Open = new AbstractAction("Open", new ImageIcon("open.gif")){
+    Action Open = new AbstractAction("Abrir", new ImageIcon("open.gif")){
         
         @Override
         public void actionPerformed(ActionEvent e){
@@ -133,7 +141,7 @@ public class ProyectoProgramacion1 extends JFrame{
         }
     };
     
-    Action Save = new AbstractAction("Save",new ImageIcon("")){
+    Action Save = new AbstractAction("Guardar",new ImageIcon("")){
         @Override
         public void actionPerformed(ActionEvent e){
             if(!currentFile.equals("Untitled"))
@@ -143,20 +151,20 @@ public class ProyectoProgramacion1 extends JFrame{
         }
         
     };
-    Action SaveAs = new AbstractAction("Save as..."){
+    Action SaveAs = new AbstractAction("Guardar como..."){
       @Override
       public void actionPerformed(ActionEvent e){
           saveFileAs();
       }
     };
-    Action Quit = new AbstractAction("Quit"){
+    Action Quit = new AbstractAction("Salir"){
       @Override
       public void actionPerformed(ActionEvent e){
           saveOld();
           System.exit(0);
       }  
     };
-    Action New = new AbstractAction("New", new ImageIcon("")){
+    Action New = new AbstractAction("Nuevo", new ImageIcon("")){
       @Override
       public void actionPerformed(ActionEvent e){
           saveOld();
@@ -195,7 +203,7 @@ public class ProyectoProgramacion1 extends JFrame{
         }
         catch(IOException e){
             Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(this,"Editor can't find the file called "+fileName);
+            JOptionPane.showMessageDialog(this,"El editor no pudo encontrar el archivo: "+fileName);
             
         }
             
