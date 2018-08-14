@@ -4,16 +4,16 @@ import java.awt.*;
 //import java.awt.Color;
 //import java.awt.Font;
 import java.awt.event.*;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
 //import java.awt.event.KeyAdapter;
 //import java.awt.event.KeyEvent;
+import java.io.*;
+//import java.io.FileReader;
+//import java.io.FileWriter;
+//import java.io.IOException;
+
 import javax.swing.*;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.text.DefaultEditorKit;
 //import javax.swing.JButton;
 //import javax.swing.JCheckBox;
 //import javax.swing.JComboBox;
@@ -23,6 +23,8 @@ import javax.swing.text.DefaultEditorKit;
 //import javax.swing.JScrollPane;
 //import javax.swing.JTextArea;
 //import javax.swing.JTextField;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.text.DefaultEditorKit;
 
 public class ProyectoProgramacion1 extends JFrame{
     private JTextArea area = new JTextArea(20,120);
@@ -82,7 +84,26 @@ public class ProyectoProgramacion1 extends JFrame{
         area.addKeyListener(k1);
         setTitle(currentFile);
         setVisible(true);
+        
+        
+    //COLOR CHOOSER 
+        JButton btnColor = new JButton("Color de Fuente");
+        JMB.add(btnColor);
+//        btnColor.setBounds(10, 30, 125, 20);
+        btnColor.setToolTipText("Clickea para desplegar la paleta de colores");
+        btnColor.addActionListener(new ActionListener(){
+            public void actionPerformed (ActionEvent e){
+                //Abre la paleta de colores
+                Color colores=JColorChooser.showDialog(JMB, "Eligir un color para la fuente", Color.BLACK);
+                //Cambia el color del boton para saber que color estamos usando
+                btnColor.setBackground(colores);
+//                lblNewLabel.setOpaque(true);
+            }
+        });
+        
     }
+
+    
     private KeyListener k1 = new KeyAdapter(){
             public void keyPressed(KeyEvent e){
                 changed = true;
