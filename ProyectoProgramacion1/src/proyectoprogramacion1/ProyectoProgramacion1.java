@@ -96,6 +96,7 @@ public class ProyectoProgramacion1 extends JFrame{
 //        btnColor.setBounds(10, 30, 125, 20);
         btnColor.setToolTipText("Clickea para desplegar la paleta de colores");
         btnColor.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed (ActionEvent e){
                 //Abre la paleta de colores
                 Color colores=JColorChooser.showDialog(JMB, "Eligir un color para la fuente", Color.BLACK);
@@ -110,6 +111,7 @@ public class ProyectoProgramacion1 extends JFrame{
 
     
     private KeyListener k1 = new KeyAdapter(){
+            @Override
             public void keyPressed(KeyEvent e){
                 changed = true;
                 Save.setEnabled(true);
@@ -121,8 +123,9 @@ public class ProyectoProgramacion1 extends JFrame{
     };
     Action Open = new AbstractAction("Open", new ImageIcon("open.gif")){
         
+        @Override
         public void actionPerformed(ActionEvent e){
-            saveOld();
+//            saveOld();
             if(dialog.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
                 readInFile(dialog.getSelectedFile().getAbsolutePath());
             }
@@ -131,6 +134,7 @@ public class ProyectoProgramacion1 extends JFrame{
     };
     
     Action Save = new AbstractAction("Save",new ImageIcon("")){
+        @Override
         public void actionPerformed(ActionEvent e){
             if(!currentFile.equals("Untitled"))
                 saveFile(currentFile);
@@ -140,17 +144,20 @@ public class ProyectoProgramacion1 extends JFrame{
         
     };
     Action SaveAs = new AbstractAction("Save as..."){
+      @Override
       public void actionPerformed(ActionEvent e){
           saveFileAs();
       }
     };
     Action Quit = new AbstractAction("Quit"){
+      @Override
       public void actionPerformed(ActionEvent e){
           saveOld();
           System.exit(0);
       }  
     };
     Action New = new AbstractAction("New", new ImageIcon("")){
+      @Override
       public void actionPerformed(ActionEvent e){
           saveOld();
           area.setText("");
