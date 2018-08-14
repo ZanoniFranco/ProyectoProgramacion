@@ -20,9 +20,9 @@ import javax.swing.*;
 //import javax.swing.JTextField;
 
 public class ProyectoProgramacion1 {
-
-    public static void main(String[] args) {
-        //FRAME
+    public ProyectoProgramacion1(){
+    
+    //FRAME
         JFrame frame = new JFrame("Text Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -86,6 +86,7 @@ public class ProyectoProgramacion1 {
         frame.add(btnColor);
         btnColor.setBounds(110, 25, 125, 20);
         btnColor.setToolTipText("Clickea para desplegar la paleta de colores");
+        
         JColorChooser colores = new JColorChooser();
 //        frame.add(colores);
 //    combbox.setBounds(X,Y,Widht,High);
@@ -96,5 +97,10 @@ public class ProyectoProgramacion1 {
         frame.setSize(500, 500);
         frame.repaint();
         frame.setVisible(true);
+    
+    }
+
+    public static void main(String[] args) {
+        new ProyectoProgramacion1();
     }
 }
