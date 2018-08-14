@@ -65,7 +65,7 @@ public class ProyectoProgramacion1 {
     combbox.setBounds(20,20,100,20);
     combbox.addItem("uno");
     combbox.addItem("dos");
-        
+       
    combbox.addActionListener(new ActionListener() {
    @Override
    public void actionPerformed(ActionEvent ae) {
