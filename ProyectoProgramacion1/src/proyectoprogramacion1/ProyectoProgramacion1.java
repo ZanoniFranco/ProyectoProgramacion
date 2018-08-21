@@ -1,9 +1,10 @@
 package proyectoprogramacion1;
 
+import com.ozten.font.JFontChooser;
 import java.awt.*;
-import static java.awt.Color.*;
 //import java.awt.Color;
 //import java.awt.Font;
+//import static java.awt.Color.*;
 import java.awt.event.*;
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ import javax.swing.*;
 //import javax.swing.JScrollPane;
 //import javax.swing.JTextArea;
 //import javax.swing.JTextField;
+import java.util.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.text.DefaultEditorKit;
 
@@ -31,14 +33,15 @@ public class ProyectoProgramacion1 extends JFrame {
 
     private JTextArea area = new JTextArea(20, 80);
     private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
+    private JLabel label2;
 
-    private String currentFile = "EDITOR DE TEXTO";
+    private File currentFile = null;
 
     private boolean changed = false;
 
     public ProyectoProgramacion1() {
 
-        area.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        area.setFont(new Font("Monospaced", 0, 12));
         area.setToolTipText("Hoja");
         JScrollPane scroll = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setToolTipText("Sube y baja");
@@ -103,15 +106,22 @@ public class ProyectoProgramacion1 extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         area.addKeyListener(k1);
-        setTitle(currentFile);
+        setTitle("Editor de Texto");
         setVisible(true);
 
         //LABEL1
         JLabel label1 = new JLabel("Zanoni&Moroncini ©");
+        tool.add(label1);
         label1.setBounds(10, 30, 100, 30);
         label1.setForeground(new Color(25, 114, 236));
         label1.setToolTipText("Trabajo realizado por Moroncini y Zanoni");
-        tool.add(label1);
+
+        //LABEL 2
+        label2 = new JLabel("Untitled");
+        tool.add(label2);
+        label2.setBounds(30, 30, 100, 30);
+        label2.setForeground(new Color(0, 0, 0));
+        label2.setToolTipText("Archivo actual");
 
         //COLOR CHOOSER 
         JButton btnColor = new JButton("Color de Fuente");
@@ -125,14 +135,25 @@ public class ProyectoProgramacion1 extends JFrame {
                 Color colores = JColorChooser.showDialog(tool, "Eligir un color para la fuente", Color.BLACK);
                 //Cambia el color del boton para saber que color estamos usando
                 btnColor.setBackground(colores);
-//                btnColor.setForeground(WHITE);
                 area.setForeground(colores);
                 label1.setForeground(colores);
             }
         });
-
-    }
-
+        //FUENTE
+        JButton btnFont = new JButton("Tipo de Fuente");
+        JMB.add(btnFont);
+        btnFont.setToolTipText("Clickea para editar la fuente");
+        btnFont.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFontChooser fc = new JFontChooser();
+                JOptionPane.showMessageDialog(null, fc, "Edita la fuente", JOptionPane.PLAIN_MESSAGE);
+                area.setFont(fc.getPreviewFont());
+//                btnFont.setFont(fc.getPreviewFont());
+//                label1.setFont(fc.getPreviewFont());
+            }
+        });
+        //activa y desactiva el save y saveAs dependiendoe si se ha hecho un cambio o no
     private KeyListener k1 = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -142,22 +163,25 @@ public class ProyectoProgramacion1 extends JFrame {
         }
 
     };
-    Action Open = new AbstractAction("Abrir", new ImageIcon("open.gif")) {
+
+    //"Abrir" dentro del JMB archivo
+    Action Open = new AbstractAction("Abrir", new ImageIcon("")) {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             saveOld();
             if (dialog.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                readInFile(dialog.getSelectedFile().getAbsolutePath());
+                readInFile(dialog.getSelectedFile());
             }
             SaveAs.setEnabled(true);
         }
     };
 
+    //"Guardar" dentro del JMB archivo
     Action Save = new AbstractAction("Guardar", new ImageIcon("")) {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!currentFile.equals("Untitled")) {
+            if (!currentFile.equals(null)) {
                 saveFile(currentFile);
             } else {
                 saveFileAs();
@@ -165,12 +189,16 @@ public class ProyectoProgramacion1 extends JFrame {
         }
 
     };
+
+    //"Guardar como" dentro del JMB archivo
     Action SaveAs = new AbstractAction("Guardar como...") {
         @Override
         public void actionPerformed(ActionEvent e) {
             saveFileAs();
         }
     };
+
+    //"Salir" dentro del JMB archivo
     Action Quit = new AbstractAction("Salir") {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -178,13 +206,15 @@ public class ProyectoProgramacion1 extends JFrame {
             System.exit(0);
         }
     };
+
+    //"Nuevo" dentro del JMB archivo
     Action New = new AbstractAction("Nuevo", new ImageIcon("")) {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (saveOld()) {
                 area.setText("");
-                currentFile = "Untitled";
-                setTitle(currentFile);
+                currentFile = null;
+                label2.setText("Untitled");
                 changed = false;
                 Save.setEnabled(false);
                 SaveAs.setEnabled(false);
@@ -192,6 +222,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
         }
     };
+
     ActionMap m = area.getActionMap();
     Action Cut = m.get(DefaultEditorKit.cutAction);
     Action Copy = m.get(DefaultEditorKit.copyAction);
@@ -199,26 +230,26 @@ public class ProyectoProgramacion1 extends JFrame {
 
     private void saveFileAs() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            saveFile(dialog.getSelectedFile().getAbsolutePath());
+            saveFile(dialog.getSelectedFile());
         }
     }
 
     private Boolean saveOld() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            saveFile(dialog.getSelectedFile().getAbsolutePath());
+            saveFile(dialog.getSelectedFile());
             return true;
         }
         return false;
 
     }
 
-    private void readInFile(String fileName) {
+    private void readInFile(File fileName) {
         try {
-            FileReader r = new FileReader(fileName);
+            FileReader r = new FileReader(fileName.getAbsolutePath());
             area.read(r, null);
             r.close();
             currentFile = fileName;
-            setTitle(currentFile);
+            label2.setText(fileName.getName());
             changed = false;
         } catch (IOException e) {
             Toolkit.getDefaultToolkit().beep();
@@ -228,13 +259,13 @@ public class ProyectoProgramacion1 extends JFrame {
 
     }
 
-    private void saveFile(String fileName) {
+    private void saveFile(File fileName) {
         try {
             FileWriter w = new FileWriter(fileName);
             area.write(w);
             w.close();
             currentFile = fileName;
-            setTitle(currentFile);
+            label2.setText(fileName.getName());
             changed = false;
             Save.setEnabled(true);
         } catch (IOException e) {
