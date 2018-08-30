@@ -25,6 +25,7 @@ import javax.swing.*;
 //import javax.swing.JScrollPane;
 //import javax.swing.JTextArea;
 //import javax.swing.JTextField;
+
 import java.util.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.text.DefaultEditorKit;
@@ -185,7 +186,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
         area.addKeyListener(k1);
 
-//"Salir" dentro del JMB archivo
+        //"Salir" dentro del JMB archivo
         Action Quit = new AbstractAction("Salir") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,16 +202,7 @@ public class ProyectoProgramacion1 extends JFrame {
             }
         };
 
-// (CODIGO VIEJO) "Salir" dentro del JMB archivo 
-//        Action Quit = new AbstractAction("Salir") {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                saveOld();
-//                System.exit(0);
-//            }
-//        };
-
-//"Nuevo" dentro del JMB archivo
+        //"Nuevo" dentro del JMB archivo
         newFile = new AbstractAction("Nuevo", new ImageIcon("")) {
 
             @Override
@@ -237,27 +229,6 @@ public class ProyectoProgramacion1 extends JFrame {
             }
 
         };
-
-// (CODIGO VIEJO) "Nuevo" dentro del JMB archivo
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (saveOld()) {
-//                    area.setText("");
-//                    currentFile = null;
-//                    label2.setText("Untitled");
-//                    changed = false;
-//                    save.setEnabled(false);
-//                    saveAs.setEnabled(false);
-//                } else {
-//                    area.setText("");
-//                    currentFile = null;
-//                    label2.setText("Untitled");
-//                    changed = false;
-//                    save.setEnabled(false);
-//                    saveAs.setEnabled(false);
-//                }
-//
-//            }
 
         save.setEnabled(
                 false);
@@ -302,6 +273,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
         file.addSeparator();
 
+        
         tool.add(newFile)
                 .setToolTipText("Nuevo");
 
