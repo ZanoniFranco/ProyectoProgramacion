@@ -290,7 +290,7 @@ public class ProyectoProgramacion1 extends JFrame {
             file.getItem(i).setIcon(null);
         }
 
-    } //Fin constructor
+    }  //Fin constructor
 
     private void saveFileAs() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
