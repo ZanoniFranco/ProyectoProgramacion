@@ -34,11 +34,23 @@ public class ProyectoProgramacion1 extends JFrame {
     private JTextArea area = new JTextArea(20, 80);
     private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
     private JLabel label2;
+    private KeyListener k1;
 
+    //archivo en cuestión
     private File currentFile = null;
 
+    //si se realiza un cambio en el documento, pasa a ser true
     private boolean changed = false;
 
+    private Action save;
+    private Action saveAs;
+    private Action newFile;
+    private Action open;
+    JMenu file;
+    JMenuBar JMB;
+    JMenu edit;
+
+    //Inicio constructor.
     public ProyectoProgramacion1() {
 
         area.setFont(new Font("Monospaced", 0, 12));
@@ -47,26 +59,23 @@ public class ProyectoProgramacion1 extends JFrame {
         scroll.setToolTipText("Sube y baja");
         add(scroll, BorderLayout.CENTER);
 
-        JMenuBar JMB = new JMenuBar();
+        JMB = new JMenuBar();
         setJMenuBar(JMB);
-        JMenu file = new JMenu("Archivo");
-        JMenu edit = new JMenu("Editar");
+        file = new JMenu("Archivo");
+        edit = new JMenu("Editar");
         JMB.setToolTipText("Barra de tareas");
         JMB.add(file);
         JMB.add(edit);
         file.setToolTipText("Archivo");
         edit.setToolTipText("Editar");
 
-        file.add(New);
-        file.add(Open);
-        file.add(Save);
-        file.add(Quit);
-        file.add(SaveAs);
-        file.addSeparator();
+        JToolBar tool = new JToolBar();
+        add(tool, BorderLayout.NORTH);
 
-        for (int i = 0; i < 4; i++) {
-            file.getItem(i).setIcon(null);
-        }
+        ActionMap m = area.getActionMap();
+        Action Cut = m.get(DefaultEditorKit.cutAction);
+        Action Copy = m.get(DefaultEditorKit.copyAction);
+        Action Paste = m.get(DefaultEditorKit.pasteAction);
 
         edit.add(Cut);
         edit.add(Copy);
@@ -79,15 +88,11 @@ public class ProyectoProgramacion1 extends JFrame {
         edit.getItem(2).setText("Pegar");
         edit.getItem(2).setToolTipText("Ctrl + V");
 
-        JToolBar tool = new JToolBar();
-        add(tool, BorderLayout.NORTH);
-//        tool.add(New);
-        tool.add(New).setToolTipText("Nuevo");
-//        tool.add(Open);
-        tool.add(Open).setToolTipText("Abrir");
-//        tool.add(Save);
-        tool.add(Save).setToolTipText("Guardar");
-        tool.addSeparator();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pack();
+
+        setTitle("Editor de Texto");
+        setVisible(true);
 
         JButton cut = tool.add(Cut), cop = tool.add(Copy), pas = tool.add(Paste);
         cut.setToolTipText("Corta el texto seleccionado");
@@ -99,15 +104,6 @@ public class ProyectoProgramacion1 extends JFrame {
         cop.setIcon(new ImageIcon("C:\\Users\\Manuel\\Documents\\NetBeansProjects\\ProyectoProgramacion\\ProyectoProgramacion1\\src\\proyectoprogramacion1\\copiar.png"));
         pas.setText(null);
         pas.setIcon(new ImageIcon("C:\\Users\\Manuel\\Documents\\NetBeansProjects\\ProyectoProgramacion\\ProyectoProgramacion1\\src\\proyectoprogramacion1\\pegar.png"));
-
-        Save.setEnabled(false);
-        SaveAs.setEnabled(false);
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pack();
-        area.addKeyListener(k1);
-        setTitle("Editor de Texto");
-        setVisible(true);
 
         //LABEL1
         JLabel label1 = new JLabel("Zanoni&Moroncini ©");
@@ -139,6 +135,7 @@ public class ProyectoProgramacion1 extends JFrame {
                 label1.setForeground(colores);
             }
         });
+
         //FUENTE
         JButton btnFont = new JButton("Tipo de Fuente");
         JMB.add(btnFont);
@@ -153,80 +150,175 @@ public class ProyectoProgramacion1 extends JFrame {
 //                label1.setFont(fc.getPreviewFont());
             }
         });
-        //activa y desactiva el save y saveAs dependiendoe si se ha hecho un cambio o no
-    private KeyListener k1 = new KeyAdapter() {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            changed = true;
-            Save.setEnabled(true);
-            SaveAs.setEnabled(true);
-        }
 
-    };
-
-    //"Abrir" dentro del JMB archivo
-    Action Open = new AbstractAction("Abrir", new ImageIcon("")) {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            saveOld();
-            if (dialog.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                readInFile(dialog.getSelectedFile());
+        //"Guardar" dentro del JMB archivo
+        save = new AbstractAction("Guardar", new ImageIcon("")) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!currentFile.equals(null)) {
+                    saveFile(currentFile);
+                } else {
+                    saveFileAs();
+                }
             }
-            SaveAs.setEnabled(true);
-        }
-    };
 
-    //"Guardar" dentro del JMB archivo
-    Action Save = new AbstractAction("Guardar", new ImageIcon("")) {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (!currentFile.equals(null)) {
-                saveFile(currentFile);
-            } else {
+        };
+
+        //"Guardar como" dentro del JMB archivo
+        saveAs = new AbstractAction("Guardar como...") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 saveFileAs();
             }
-        }
+        };
 
-    };
-
-    //"Guardar como" dentro del JMB archivo
-    Action SaveAs = new AbstractAction("Guardar como...") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            saveFileAs();
-        }
-    };
-
-    //"Salir" dentro del JMB archivo
-    Action Quit = new AbstractAction("Salir") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            saveOld();
-            System.exit(0);
-        }
-    };
-
-    //"Nuevo" dentro del JMB archivo
-    Action New = new AbstractAction("Nuevo", new ImageIcon("")) {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (saveOld()) {
-                area.setText("");
-                currentFile = null;
-                label2.setText("Untitled");
-                changed = false;
-                Save.setEnabled(false);
-                SaveAs.setEnabled(false);
+        //activa y desactiva el save y saveAs dependiendoe si se ha hecho un cambio o no
+        k1 = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                changed = true;
+                save.setEnabled(true);
+                saveAs.setEnabled(true);
             }
 
-        }
-    };
+        };
 
-    ActionMap m = area.getActionMap();
-    Action Cut = m.get(DefaultEditorKit.cutAction);
-    Action Copy = m.get(DefaultEditorKit.copyAction);
-    Action Paste = m.get(DefaultEditorKit.pasteAction);
+        area.addKeyListener(k1);
+
+//"Salir" dentro del JMB archivo
+        Action Quit = new AbstractAction("Salir") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int respuestaQuit;
+                respuestaQuit = JOptionPane.showConfirmDialog(null,
+                        "¿Desea guardar antes de SALIR?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuestaQuit == JOptionPane.YES_OPTION) {
+                    saveOld();
+                    System.exit(0);
+                } else {
+                    System.exit(0);
+                }
+            }
+        };
+
+// (CODIGO VIEJO) "Salir" dentro del JMB archivo 
+//        Action Quit = new AbstractAction("Salir") {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                saveOld();
+//                System.exit(0);
+//            }
+//        };
+
+//"Nuevo" dentro del JMB archivo
+        newFile = new AbstractAction("Nuevo", new ImageIcon("")) {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int respuestaNew;
+                respuestaNew = JOptionPane.showConfirmDialog(null,
+                        "¿Desea guardar antes de CREAR un nuevo archivo?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuestaNew == JOptionPane.YES_OPTION) {
+                    saveOld();
+                    area.setText("");
+                    currentFile = null;
+                    label2.setText("Untitled");
+                    changed = false;
+                    save.setEnabled(false);
+                    saveAs.setEnabled(false);
+                } else {
+                    area.setText("");
+                    currentFile = null;
+                    label2.setText("Untitled");
+                    changed = false;
+                    save.setEnabled(false);
+                    saveAs.setEnabled(false);
+                }
+            }
+
+        };
+
+// (CODIGO VIEJO) "Nuevo" dentro del JMB archivo
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (saveOld()) {
+//                    area.setText("");
+//                    currentFile = null;
+//                    label2.setText("Untitled");
+//                    changed = false;
+//                    save.setEnabled(false);
+//                    saveAs.setEnabled(false);
+//                } else {
+//                    area.setText("");
+//                    currentFile = null;
+//                    label2.setText("Untitled");
+//                    changed = false;
+//                    save.setEnabled(false);
+//                    saveAs.setEnabled(false);
+//                }
+//
+//            }
+
+        save.setEnabled(
+                false);
+        saveAs.setEnabled(
+                false);
+
+        Action open = new AbstractAction("Abrir", new ImageIcon("")) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int respuestaOpen;
+                int dialogOpen;
+                respuestaOpen = JOptionPane.showConfirmDialog(null,
+                        "¿Desea guardar antes de ABRIR un nuevo archivo?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuestaOpen == JOptionPane.YES_OPTION) {
+                    saveOld();
+                    changed = false;
+                    save.setEnabled(false);
+                    saveAs.setEnabled(false);
+                    dialogOpen = dialog.showOpenDialog(null);
+                    readInFile(dialog.getSelectedFile());
+                } else {
+                    changed = false;
+                    save.setEnabled(false);
+                    saveAs.setEnabled(false);
+                    dialogOpen = dialog.showOpenDialog(null);
+                    readInFile(dialog.getSelectedFile());
+                }
+                saveAs.setEnabled(true);
+            }
+
+        };
+
+        file.add(newFile);
+
+        file.add(open);
+
+        file.add(save);
+
+        file.add(Quit);
+
+        file.add(saveAs);
+
+        file.addSeparator();
+
+        tool.add(newFile)
+                .setToolTipText("Nuevo");
+
+        tool.add(open)
+                .setToolTipText("Abrir");
+
+        tool.add(save)
+                .setToolTipText("Guardar");
+
+        tool.addSeparator();
+
+        for (int i = 0;
+                i < 4; i++) {
+            file.getItem(i).setIcon(null);
+        }
+
+    } //Fin constructor
 
     private void saveFileAs() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -267,13 +359,13 @@ public class ProyectoProgramacion1 extends JFrame {
             currentFile = fileName;
             label2.setText(fileName.getName());
             changed = false;
-            Save.setEnabled(true);
+            save.setEnabled(true);
         } catch (IOException e) {
 
         }
     }
 
     public static void main(String[] args) {
-        new ProyectoProgramacion1();
+        ProyectoProgramacion1 proyectoProgramacion1 = new ProyectoProgramacion1();
     }
 }
