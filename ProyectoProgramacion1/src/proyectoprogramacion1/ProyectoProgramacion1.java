@@ -54,6 +54,38 @@ public class ProyectoProgramacion1 extends JFrame {
     //Inicio constructor.
     public ProyectoProgramacion1() {
 
+        String usuario = JOptionPane.showInputDialog("Usuario");
+        JLabel titulo = new JLabel("Ingrese su contraseña");
+        JPasswordField password = new JPasswordField();
+        boolean b = true;
+        while(b){
+        if (usuario.equals("Manu") || usuario.equals("Franco") || usuario.equals("Willy")) {
+            break;
+        }
+        else{
+            usuario = JOptionPane.showInputDialog("Usuario incorrecto, reintente");
+        }}
+        int login1;
+        login1 = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesión", JOptionPane.OK_CANCEL_OPTION);
+        char[] helper;
+        char[] contra = new char[]{'a', 'd', 'm', 'i', 'n'};
+        helper = password.getPassword();
+        boolean a = true;
+        while (a) {
+            helper = password.getPassword();
+            System.out.println(helper);
+            if (Arrays.equals(contra, helper)) {
+                area.setVisible(true);
+                break;
+            }
+            titulo.setText("Contraseña incorrecta, reintente");
+            int login = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesion", JOptionPane.OK_CANCEL_OPTION);
+            if (login == JOptionPane.OK_CANCEL_OPTION) {
+                System.exit(0);
+                break;
+            }
+        }
+
         area.setFont(new Font("Monospaced", 0, 12));
         area.setToolTipText("Hoja");
         JScrollPane scroll = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -123,7 +155,7 @@ public class ProyectoProgramacion1 extends JFrame {
         //COLOR CHOOSER 
         JButton btnColor = new JButton("Color de Fuente");
         JMB.add(btnColor);
-//        btnColor.setBounds(10, 30, 125, 20);
+        //btnColor.setBounds(10, 30, 125, 20);
         btnColor.setToolTipText("Clickea para desplegar la paleta de colores");
         btnColor.addActionListener(new ActionListener() {
             @Override
@@ -147,8 +179,8 @@ public class ProyectoProgramacion1 extends JFrame {
                 JFontChooser fc = new JFontChooser();
                 JOptionPane.showMessageDialog(null, fc, "Edita la fuente", JOptionPane.PLAIN_MESSAGE);
                 area.setFont(fc.getPreviewFont());
-//                btnFont.setFont(fc.getPreviewFont());
-//                label1.setFont(fc.getPreviewFont());
+                //btnFont.setFont(fc.getPreviewFont());
+                //label1.setFont(fc.getPreviewFont());
             }
         });
 
@@ -156,10 +188,10 @@ public class ProyectoProgramacion1 extends JFrame {
         save = new AbstractAction("Guardar", new ImageIcon("")) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!currentFile.equals(null)) {
-                    saveFile(currentFile);
-                } else {
+                if (currentFile == null) {
                     saveFileAs();
+                } else {
+                    saveFile(currentFile);
                 }
             }
 
@@ -273,7 +305,6 @@ public class ProyectoProgramacion1 extends JFrame {
 
         file.addSeparator();
 
-        
         tool.add(newFile)
                 .setToolTipText("Nuevo");
 
