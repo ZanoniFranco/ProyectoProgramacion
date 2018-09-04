@@ -33,7 +33,7 @@ import javax.swing.text.DefaultEditorKit;
 public class ProyectoProgramacion1 extends JFrame {
 
     private JTextArea area = new JTextArea(20, 80);
-    private JFileChooser dialog = new JFileChooser(System.getProperty("user.dir"));
+    private JFileChooser dialog = new JFileChooser(System.getProperty(".dir"));
     private JLabel label2;
     private KeyListener k1;
 
@@ -43,6 +43,7 @@ public class ProyectoProgramacion1 extends JFrame {
     //si se realiza un cambio en el documento, pasa a ser true
     private boolean changed = false;
 
+//actions
     private Action save;
     private Action saveAs;
     private Action newFile;
@@ -51,20 +52,27 @@ public class ProyectoProgramacion1 extends JFrame {
     JMenuBar JMB;
     JMenu edit;
 
+    public String usuario;
+    public JPasswordField password;
+//    public String usuario;
+//    public JPasswordField password;
+    
     //Inicio constructor.
     public ProyectoProgramacion1() {
 
-        String usuario = JOptionPane.showInputDialog("Usuario");
+        //LOGIN
         JLabel titulo = new JLabel("Ingrese su contraseña");
-        JPasswordField password = new JPasswordField();
+        password = new JPasswordField();
+        usuario = JOptionPane.showInputDialog("Usuario");
         boolean b = true;
-        while(b){
-        if (usuario.equals("Manu") || usuario.equals("Franco") || usuario.equals("Willy")) {
-            break;
+        while (b) {
+            SOUT.imprimir(usuario);
+            if (usuario.equals("Manu") || usuario.equals("Franco") || usuario.equals("Willy")) {
+                break;
+            } else {
+                usuario = JOptionPane.showInputDialog("Usuario incorrecto, reintente");
+            }
         }
-        else{
-            usuario = JOptionPane.showInputDialog("Usuario incorrecto, reintente");
-        }}
         int login1;
         login1 = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesión", JOptionPane.OK_CANCEL_OPTION);
         char[] helper;
@@ -92,6 +100,7 @@ public class ProyectoProgramacion1 extends JFrame {
         scroll.setToolTipText("Sube y baja");
         add(scroll, BorderLayout.CENTER);
 
+        //Menu Bar
         JMB = new JMenuBar();
         setJMenuBar(JMB);
         file = new JMenu("Archivo");
@@ -102,6 +111,7 @@ public class ProyectoProgramacion1 extends JFrame {
         file.setToolTipText("Archivo");
         edit.setToolTipText("Editar");
 
+        //Tool Bar
         JToolBar tool = new JToolBar();
         add(tool, BorderLayout.NORTH);
 
@@ -127,6 +137,7 @@ public class ProyectoProgramacion1 extends JFrame {
         setTitle("Editor de Texto");
         setVisible(true);
 
+        //accesos directos ctrl cvx
         JButton cut = tool.add(Cut), cop = tool.add(Copy), pas = tool.add(Paste);
         cut.setToolTipText("Corta el texto seleccionado");
         cop.setToolTipText("Copia el texto seleccionado");
@@ -267,6 +278,7 @@ public class ProyectoProgramacion1 extends JFrame {
         saveAs.setEnabled(
                 false);
 
+        //Abrir un archivo nuevo
         Action open = new AbstractAction("Abrir", new ImageIcon("")) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -293,6 +305,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
         };
 
+        //adds
         file.add(newFile);
 
         file.add(open);
@@ -323,12 +336,14 @@ public class ProyectoProgramacion1 extends JFrame {
 
     }  //Fin constructor
 
+    //Guardar Como
     private void saveFileAs() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             saveFile(dialog.getSelectedFile());
         }
     }
 
+    //Guardar viejo
     private Boolean saveOld() {
         if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             saveFile(dialog.getSelectedFile());
@@ -338,6 +353,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
     }
 
+    //Leer archivo
     private void readInFile(File fileName) {
         try {
             FileReader r = new FileReader(fileName.getAbsolutePath());
@@ -354,6 +370,7 @@ public class ProyectoProgramacion1 extends JFrame {
 
     }
 
+    //Guardar
     private void saveFile(File fileName) {
         try {
             FileWriter w = new FileWriter(fileName);
@@ -368,6 +385,7 @@ public class ProyectoProgramacion1 extends JFrame {
         }
     }
 
+    //metodo main
     public static void main(String[] args) {
         ProyectoProgramacion1 proyectoProgramacion1 = new ProyectoProgramacion1();
     }
