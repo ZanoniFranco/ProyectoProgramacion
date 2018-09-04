@@ -52,8 +52,8 @@ public class ProyectoProgramacion1 extends JFrame {
     JMenuBar JMB;
     JMenu edit;
 
-    public String usuario;
-    public JPasswordField password;
+    private String usuario;
+    private JPasswordField password;
 //    public String usuario;
 //    public JPasswordField password;
     
@@ -61,32 +61,36 @@ public class ProyectoProgramacion1 extends JFrame {
     public ProyectoProgramacion1() {
 
         //LOGIN
+        System.out.println("Inicio de sesión...");
         JLabel titulo = new JLabel("Ingrese su contraseña");
         password = new JPasswordField();
         usuario = JOptionPane.showInputDialog("Usuario");
         boolean b = true;
         while (b) {
-            SOUT.imprimir(usuario);
-            if (usuario.equals("Manu") || usuario.equals("Franco")) {
+            if (usuario.equals("Manu")) {
+                SOUT.imprimir("¡Hola " + usuario + "!");
                 break;
             } else {
                 usuario = JOptionPane.showInputDialog("Usuario incorrecto, reintente");
+                SOUT.imprimir("Usuario no reconocido");
             }
         }
         int login1;
         login1 = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesión", JOptionPane.OK_CANCEL_OPTION);
         char[] helper;
-        char[] contra = new char[]{'a', 'd', 'm', 'i', 'n'};
+        char[] contra = new char[]{'c', 'a', 'f', 'e', '2'};
         helper = password.getPassword();
         boolean a = true;
         while (a) {
             helper = password.getPassword();
             System.out.println(helper);
             if (Arrays.equals(contra, helper)) {
+                SOUT.imprimir("Ha ingresado existosamente, enjoy!");
                 area.setVisible(true);
                 break;
             }
             titulo.setText("Contraseña incorrecta, reintente");
+            SOUT.imprimir("La contraseña no es la correcta");
             int login = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesion", JOptionPane.OK_CANCEL_OPTION);
             if (login == JOptionPane.OK_CANCEL_OPTION) {
                 System.exit(0);
@@ -216,7 +220,7 @@ public class ProyectoProgramacion1 extends JFrame {
             }
         };
 
-        //activa y desactiva el save y saveAs dependiendoe si se ha hecho un cambio o no
+        //Activa y desactiva el save y saveAs dependiendoe si se ha hecho un cambio o no
         k1 = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -238,8 +242,10 @@ public class ProyectoProgramacion1 extends JFrame {
                         "¿Desea guardar antes de SALIR?", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (respuestaQuit == JOptionPane.YES_OPTION) {
                     saveOld();
+                    SOUT.imprimir("Guardaste y saliste");
                     System.exit(0);
                 } else {
+                    SOUT.imprimir("Saliste sin guardar");
                     System.exit(0);
                 }
             }
@@ -261,6 +267,7 @@ public class ProyectoProgramacion1 extends JFrame {
                     changed = false;
                     save.setEnabled(false);
                     saveAs.setEnabled(false);
+                    SOUT.imprimir("Se guardó antes de crear el archivo nuevo");
                 } else {
                     area.setText("");
                     currentFile = null;
@@ -268,6 +275,7 @@ public class ProyectoProgramacion1 extends JFrame {
                     changed = false;
                     save.setEnabled(false);
                     saveAs.setEnabled(false);
+                    SOUT.imprimir("Se creó el archivo nuevo sin guardar el previo");
                 }
             }
 
@@ -293,12 +301,14 @@ public class ProyectoProgramacion1 extends JFrame {
                     saveAs.setEnabled(false);
                     dialogOpen = dialog.showOpenDialog(null);
                     readInFile(dialog.getSelectedFile());
+                    SOUT.imprimir("Se guardó antes de abrir un archivo nuevo");
                 } else {
                     changed = false;
                     save.setEnabled(false);
                     saveAs.setEnabled(false);
                     dialogOpen = dialog.showOpenDialog(null);
                     readInFile(dialog.getSelectedFile());
+                    SOUT.imprimir("Se abrió un archivo nuevo sin guardar el previo");
                 }
                 saveAs.setEnabled(true);
             }
