@@ -67,7 +67,7 @@ public class ProyectoProgramacion1 extends JFrame {
         boolean b = true;
         while (b) {
             SOUT.imprimir(usuario);
-            if (usuario.equals("Manu") || usuario.equals("Franco") || usuario.equals("Willy")) {
+            if (usuario.equals("Manu") || usuario.equals("Franco")) {
                 break;
             } else {
                 usuario = JOptionPane.showInputDialog("Usuario incorrecto, reintente");
