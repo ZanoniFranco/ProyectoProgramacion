@@ -78,7 +78,7 @@ public class ProyectoProgramacion1 extends JFrame {
         int login1;
         login1 = JOptionPane.showConfirmDialog(null, new Object[]{titulo, password}, "Iniciar sesión", JOptionPane.OK_CANCEL_OPTION);
         char[] helper;
-        char[] contra = new char[]{'c', 'a', 'f', 'e', '2'};
+        char[] contra = new char[]{'c', '4', 'f', '3', 's'};
         helper = password.getPassword();
         boolean a = true;
         while (a) {
