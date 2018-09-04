@@ -85,6 +85,7 @@ public class ProyectoProgramacion1 extends JFrame {
             helper = password.getPassword();
             System.out.println(helper);
             if (Arrays.equals(contra, helper)) {
+                SOUT.imprimir("Contraseña ingresada correctamente");
                 SOUT.imprimir("Ha ingresado existosamente, enjoy!");
                 area.setVisible(true);
                 break;
@@ -128,6 +129,7 @@ public class ProyectoProgramacion1 extends JFrame {
         edit.add(Copy);
         edit.add(Paste);
 
+        //Items
         edit.getItem(0).setText("Cortar");
         edit.getItem(0).setToolTipText("Ctrl + X");
         edit.getItem(1).setText("Copiar");
@@ -141,7 +143,7 @@ public class ProyectoProgramacion1 extends JFrame {
         setTitle("Editor de Texto");
         setVisible(true);
 
-        //accesos directos ctrl cvx
+        //Accesos directos Ctrl CVX
         JButton cut = tool.add(Cut), cop = tool.add(Copy), pas = tool.add(Paste);
         cut.setToolTipText("Corta el texto seleccionado");
         cop.setToolTipText("Copia el texto seleccionado");
